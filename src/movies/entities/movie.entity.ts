@@ -2,6 +2,6 @@ export class Movie {
   id: number;
   title: string;
   director: string;
-  denres: string[];
+  genres: string[];
   year: number;
 }
