@@ -3,17 +3,22 @@ import {
   Controller,
   Delete,
   Get,
+  NotFoundException,
   Param,
   Patch,
   Post,
   Query,
 } from '@nestjs/common';
+import { Movie } from './entities/movie.entity';
+import { MoviesService } from './movies.service';
 
 @Controller('movies')
 export class MoviesController {
+  constructor(private readonly moviesService: MoviesService) {}
+
   @Get()
-  getMovies() {
-    return 'Get all the movies';
+  getMovies(): Movie[] {
+    return this.moviesService.getMovies();
   }
 
   @Get('search')
@@ -22,25 +27,25 @@ export class MoviesController {
   }
 
   @Get(':id')
-  getMovie(@Param('id') movieId: string) {
-    return `Get a movie id: ${movieId}`;
+  getMovie(@Param('id') movieId: string): Movie {
+    return this.moviesService.getMovie(movieId);
   }
 
   @Post()
-  postMovie(@Body() movieData) {
-    return movieData;
+  postMovie(@Body() movieData): boolean {
+    this.moviesService.postMovie(movieData);
+    return true;
   }
 
   @Delete(':id')
-  deleteMovie(@Param('id') id: string) {
-    return `Delete a Movie id: ${id}`;
+  deleteMovie(@Param('id') id: string): boolean {
+    this.moviesService.deleteMovie(id);
+    return true;
   }
 
   @Patch(':id')
   patchMovie(@Param('id') id: string, @Body() updateData) {
-    return {
-      updatedMovieId: id,
-      ...updateData,
-    };
+    this.moviesService.patchMovie(id, updateData);
+    return true;
   }
 }
