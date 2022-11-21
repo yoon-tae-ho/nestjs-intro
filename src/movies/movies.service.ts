@@ -19,10 +19,12 @@ export class MoviesService {
   }
 
   postMovie(movieData: createMovieDTO) {
+    const id = this.movies.length + 1;
     this.movies.push({
-      id: this.movies.length + 1,
+      id,
       ...movieData,
     });
+    return id;
   }
 
   deleteMovie(movieId: number) {
