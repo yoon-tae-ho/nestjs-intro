@@ -29,14 +29,12 @@ export class MoviesController {
 
   @Get(':id')
   getMovie(@Param('id') movieId: number): Movie {
-    console.log('id: ', typeof movieId);
     return this.moviesService.getMovie(movieId);
   }
 
   @Post()
   postMovie(@Body() movieData: createMovieDTO): boolean {
     this.moviesService.postMovie(movieData);
-    console.log('year: ', typeof movieData.year);
     return true;
   }
 
